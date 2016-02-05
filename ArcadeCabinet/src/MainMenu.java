@@ -2,22 +2,15 @@ import java.util.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-public class MainMenu
+import javax.swing.JFrame;
+
+public class MainMenu 
 	{
-
-		public static void main(String[] args)
-			{
-			JFrame frame = new JFrame("SNAEKE");
-			frame.setSize(600,600);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setResizable(false);
-			frame.setVisible(true);
-			frame.setLocationRelativeTo(null);
-			}
-		public void paint(Graphics graphics)
-			{
-			graphics.setColor(Color.black);
-			graphics.drawRect(40, 30,300,400);
-			}
-
+	public static void main(String[] args) 
+		{
+		JFrame frame = new JFrame("Mini Tennis");
+		frame.setSize(300, 300);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 	}
