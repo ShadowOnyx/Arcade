@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -13,11 +14,11 @@ public class Game extends JPanel
 	{
 	int x=0;
 	int y=0;
-	static boolean inGame=true;
 	static boolean right=true;
 	static boolean left=false;
 	static boolean up=false;
 	static boolean down=false;
+	static boolean pigsFly;
 	
 	public Game() 
 		{
@@ -46,13 +47,13 @@ public class Game extends JPanel
 					{
 					up=true;
 					right=false;
-					left=true;	
+					left=false;	
 					}
 				if(KeyEvent.getKeyText(e.getKeyCode()).equals("Down")&&up==false)
 					{
 					right=false;
 					down=true;
-					left=true;	
+					left=false;	
 					}
 				}
 
@@ -72,23 +73,22 @@ public class Game extends JPanel
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
 		g2d.setColor(Color.black);
 		g2d.fillRect(x, y, 25, 25 );	
 		
 		}
-	
-	
 	public static void main(String[] args) 
 		{
-		JFrame frame = new JFrame("SNAEK");
+		JFrame frame = new JFrame("FALLOUT 5 PUBLIC ALPHA BUILD -0.01");
 		Game game = new Game();
 		frame.add(game);
-		frame.setSize(480,480);
+		frame.setSize(480,475);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
-		while(inGame)
+		while(!pigsFly)
 			{
 			System.out.println("x "+game.x);
 			System.out.println("y "+game.y);
@@ -97,7 +97,7 @@ public class Game extends JPanel
 			
 			try
 				{
-				Thread.sleep(100);
+				Thread.sleep(180);
 				} catch (InterruptedException e)
 				{
 				e.printStackTrace();
@@ -105,36 +105,44 @@ public class Game extends JPanel
 			}
 		}
 	
-
+	public void gameOver() 
+		{
+		JOptionPane.showMessageDialog(this, ":(", "Game Over!", JOptionPane.YES_NO_OPTION);
+		System.exit(0);
+		}
 	public void movement()
 		{
 		if (x  < 0)
 			{
 			System.out.println("YOU LOSE :^ )");
 			left=false;
+			gameOver();
 			}
 		if (x  >= 500-49)
 			{
 			System.out.println("YOU LOSE :^ )");
 			right=false;
+			gameOver();
 			}
 		else if (y  < 0)
 			{
 			System.out.println("YOU LOSE :^ )");	 
 			up=false;
+			gameOver();
 			}
-		else if (y  >= 500-49)
+		else if (y  >= 500-51)
 			{
 			System.out.println("YOU LOSE :^ )");	
 			down=false;
+			gameOver();
 			}
 		if(right)
 			x= x+25;
-		if(left)
+		else if(left)
 			x=x-25;
-		if(up)
+		else if(up)
 			y=y-25;
-		if(down)
+		else if(down)
 			y=y+25;
 		
 		}
