@@ -12,13 +12,15 @@ import java.awt.event.KeyListener;
 @SuppressWarnings("serial")
 public class Game extends JPanel 
 	{
-	int x=0;
-	int y=0;
-	static boolean right=true;
+	int x=225;
+	int y=200;
+	static boolean right=false;
 	static boolean left=false;
 	static boolean up=false;
 	static boolean down=false;
 	static boolean pigsFly;
+	static int xFoodCoord;
+	static int yFoodCoord;
 	
 	public Game() 
 		{
@@ -72,14 +74,15 @@ public class Game extends JPanel
 		{	
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		g2d.setColor(Color.black);
 		g2d.fillRect(x, y, 25, 25 );	
-		
+		g2d.setColor(Color.orange);
+		g2d.fillOval(xFoodCoord, yFoodCoord, 25, 25);
 		}
 	public static void main(String[] args) 
 		{
+		boolean food=false;
 		JFrame frame = new JFrame("FALLOUT 5 PUBLIC ALPHA BUILD -0.01");
 		Game game = new Game();
 		frame.add(game);
@@ -88,11 +91,16 @@ public class Game extends JPanel
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
+		game.greet();
 		while(!pigsFly)
 			{
+			System.out.println("FOOD x "+game.xFoodCoord);
+			System.out.println("FOOD y "+game.yFoodCoord);
 			System.out.println("x "+game.x);
 			System.out.println("y "+game.y);
+			food = game.createFood(food);
 			game.movement();
+			food = game.checkForEat(food);
 			game.repaint();
 			
 			try
@@ -104,11 +112,32 @@ public class Game extends JPanel
 				}
 			}
 		}
-	
+	public boolean createFood(boolean food)
+		{
+		if(!food)
+			{
+			xFoodCoord = (int)(Math.random()*19)*25;
+			yFoodCoord = (int)(Math.random()*18)*25;
+			}
+		return food=true;
+		}
 	public void gameOver() 
 		{
 		JOptionPane.showMessageDialog(this, ":(", "Game Over!", JOptionPane.YES_NO_OPTION);
 		System.exit(0);
+		}
+	public boolean checkForEat(boolean food)
+		{
+		if(food&&xFoodCoord==x&&yFoodCoord==y)
+			{
+				
+			return food=false;	
+			}
+		return food;
+		}
+	public void greet()	
+		{
+			JOptionPane.showMessageDialog(this, "Thank you for alpha testing, remember that the contents of this tech demo are not representative of the final product.", "", JOptionPane.YES_NO_OPTION);	
 		}
 	public void movement()
 		{

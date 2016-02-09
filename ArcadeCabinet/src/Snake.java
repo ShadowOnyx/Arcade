@@ -9,10 +9,12 @@ public class Snake
 	private static int length;
 	private static int turnCoordsX;
 	private static int turnCoordsY;
+	ArrayList <Snake> snake = new ArrayList <Snake>();
 	public Snake(int l, int cX, int cY)
 		{
 		length=l;
 		turnCoordsX=cX;
 		turnCoordsY=cY;
 		}
+	
 	}
