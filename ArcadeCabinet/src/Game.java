@@ -14,8 +14,7 @@ import java.awt.event.KeyListener;
 @SuppressWarnings("serial")
 public class Game extends JPanel 
 	{
-	int x=225;
-	int y=200;
+	
 	static boolean right=false;
 	static boolean left=false;
 	static boolean up=false;
@@ -80,29 +79,31 @@ public class Game extends JPanel
 		g2d.setColor(Color.orange);
 		g2d.fillOval(xFoodCoord, yFoodCoord, 25, 25);
 		g2d.setColor(Color.black);
-		g2d.fillRect(x, y, 25, 25 );	
+		g2d.fillRect(snake.get(0).getTurnCoordsX(), snake.get(0).getTurnCoordsY(), 25, 25 );	
 		}
 	public static void main(String[] args) 
 		{
+		Game game = new Game();
+		game.snake.add(new Snake(225,200));
 		boolean food=false;
 		JFrame frame = new JFrame("FALLOUT 5 PUBLIC ALPHA BUILD -0.01");
-		Game game = new Game();
+		
 		frame.add(game);
-		frame.setSize(480,475);
+		frame.setSize(480,478);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 		game.greet();
+		
 		while(!pigsFly)
 			{
 			System.out.println("FOOD x "+game.xFoodCoord);
 			System.out.println("FOOD y "+game.yFoodCoord);
-			System.out.println("x "+game.x);
-			System.out.println("y "+game.y);
+			System.out.println("x "+game.snake.get(0).getTurnCoordsX());
+			System.out.println("y "+game.snake.get(0).getTurnCoordsY());
 			food = game.createFood(food);
 			game.movement();
-			game.movementBabySnake();
 			food = game.checkForEat(food);
 			game.repaint();
 			
@@ -135,10 +136,10 @@ public class Game extends JPanel
 		}
 	public boolean checkForEat(boolean food)
 		{
-		if(food&&xFoodCoord==x&&yFoodCoord==y)
+		if(food&&xFoodCoord==snake.get(0).getTurnCoordsX()&&yFoodCoord==snake.get(0).getTurnCoordsY())
 			{
-			if(right)	
-			snakes.add(new Snake());
+//			if(right)	
+//				snakes.add(new Snake());
 			return food=false;	
 			}
 		return food;
@@ -149,43 +150,43 @@ public class Game extends JPanel
 		}
 	public void movement()
 		{
-		if (x  < 0)
+		if (snake.get(0).getTurnCoordsX()  < 0)
 			{
 			System.out.println("YOU LOSE :^ )");
 			left=false;
 			gameOver();
 			}
-		if (x  >= 500-49)
+		if (snake.get(0).getTurnCoordsX()  >= 475)
 			{
 			System.out.println("YOU LOSE :^ )");
 			right=false;
 			gameOver();
 			}
-		else if (y  < 0)
+		else if (snake.get(0).getTurnCoordsY()  < 0)
 			{
 			System.out.println("YOU LOSE :^ )");	 
 			up=false;
 			gameOver();
 			}
-		else if (y  >= 500-51)
+		else if (snake.get(0).getTurnCoordsY()  >= 450)
 			{
 			System.out.println("YOU LOSE :^ )");	
 			down=false;
 			gameOver();
 			}
 		if(right)
-			x= x+25;
+			snake.get(0).setTurnCoordsX(snake.get(0).getTurnCoordsX()+25);
 		else if(left)
-			x=x-25;
+			snake.get(0).setTurnCoordsX(snake.get(0).getTurnCoordsX()-25);
 		else if(up)
-			y=y-25;
+			snake.get(0).setTurnCoordsY(snake.get(0).getTurnCoordsY()-25);
 		else if(down)
-			y=y+25;
+			snake.get(0).setTurnCoordsY(snake.get(0).getTurnCoordsY()+25);
 		
 		}
 	public void movementBabySnake()
 		{
-		for(int i=0;i<snake.size();i++)
+		for(int i=1;i<snake.size();i++)
 			{
 			if(right)
 				snake.get(i).setTurnCoordsX(snake.get(i).getTurnCoordsX()+25);
