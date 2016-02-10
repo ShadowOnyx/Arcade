@@ -137,7 +137,8 @@ public class Game extends JPanel
 		{
 		if(food&&xFoodCoord==x&&yFoodCoord==y)
 			{
-			
+			if(right)	
+			snakes.add(new Snake());
 			return food=false;	
 			}
 		return food;
