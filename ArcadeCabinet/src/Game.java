@@ -3,6 +3,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,7 +23,7 @@ public class Game extends JPanel
 	static boolean pigsFly;
 	static int xFoodCoord;
 	static int yFoodCoord;
-	
+	ArrayList <Snake> snake = new ArrayList <Snake>();
 	public Game() 
 		{
 		KeyListener listener = new KeyListener() 
@@ -74,11 +76,11 @@ public class Game extends JPanel
 		{	
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
-		
-		g2d.setColor(Color.black);
-		g2d.fillRect(x, y, 25, 25 );	
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		g2d.setColor(Color.orange);
 		g2d.fillOval(xFoodCoord, yFoodCoord, 25, 25);
+		g2d.setColor(Color.black);
+		g2d.fillRect(x, y, 25, 25 );	
 		}
 	public static void main(String[] args) 
 		{
@@ -100,6 +102,7 @@ public class Game extends JPanel
 			System.out.println("y "+game.y);
 			food = game.createFood(food);
 			game.movement();
+			game.movementBabySnake();
 			food = game.checkForEat(food);
 			game.repaint();
 			
@@ -116,8 +119,12 @@ public class Game extends JPanel
 		{
 		if(!food)
 			{
+			int lastCoordX=xFoodCoord;	
+			int lastCoordY=yFoodCoord;
 			xFoodCoord = (int)(Math.random()*19)*25;
 			yFoodCoord = (int)(Math.random()*18)*25;
+			if(lastCoordX==xFoodCoord&&lastCoordY==yFoodCoord)
+				createFood(food);
 			}
 		return food=true;
 		}
@@ -130,14 +137,14 @@ public class Game extends JPanel
 		{
 		if(food&&xFoodCoord==x&&yFoodCoord==y)
 			{
-				
+	
 			return food=false;	
 			}
 		return food;
 		}
 	public void greet()	
 		{
-			JOptionPane.showMessageDialog(this, "Thank you for alpha testing, remember that the contents of this tech demo are not representative of the final product.", "", JOptionPane.YES_NO_OPTION);	
+		JOptionPane.showMessageDialog(this, "Thank you for alpha testing, remember that the contents of this tech demo are not representative of the final product.", "", JOptionPane.YES_NO_OPTION);	
 		}
 	public void movement()
 		{
@@ -165,6 +172,19 @@ public class Game extends JPanel
 			down=false;
 			gameOver();
 			}
+		if(right)
+			x= x+25;
+		else if(left)
+			x=x-25;
+		else if(up)
+			y=y-25;
+		else if(down)
+			y=y+25;
+		
+		}
+	public void movementBabySnake()
+		{
+		
 		if(right)
 			x= x+25;
 		else if(left)
