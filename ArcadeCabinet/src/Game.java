@@ -137,7 +137,7 @@ public class Game extends JPanel
 		{
 		if(food&&xFoodCoord==x&&yFoodCoord==y)
 			{
-	
+			
 			return food=false;	
 			}
 		return food;
@@ -184,16 +184,17 @@ public class Game extends JPanel
 		}
 	public void movementBabySnake()
 		{
-		
-		if(right)
-			x= x+25;
-		else if(left)
-			x=x-25;
-		else if(up)
-			y=y-25;
-		else if(down)
-			y=y+25;
-		
+		for(int i=0;i<snake.size();i++)
+			{
+			if(right)
+				snake.get(i).setTurnCoordsX(snake.get(i).getTurnCoordsX()+25);
+			else if(left)
+				snake.get(i).setTurnCoordsX(snake.get(i).getTurnCoordsX()-25);
+			else if(up)
+				snake.get(i).setTurnCoordsY(snake.get(i).getTurnCoordsY()+25);
+			else if(down)
+				snake.get(i).setTurnCoordsY(snake.get(i).getTurnCoordsY()-25);
+			}
 		}
 
 	}
