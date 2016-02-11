@@ -6,34 +6,34 @@ import javax.swing.JFrame;
 
 public class Snake 
 	{
-	private static int turnCoordsX;
-	private static int turnCoordsY;
+	private int coordsX;
+	private int coordsY;
 	
 	public Snake(int cX, int cY)
 		{
-		turnCoordsX=cX;
-		turnCoordsY=cY;
+		coordsX=cX;
+		coordsY=cY;
 		}
 
 
-	public static int getTurnCoordsX()
+	public int getCoordsX()
 		{
-			return turnCoordsX;
+			return coordsX;
 		}
 
-	public static void setTurnCoordsX(int turnCoordsX)
+	public void setCoordsX(int turnCoordsX)
 		{
-			Snake.turnCoordsX = turnCoordsX;
+			this.coordsX = turnCoordsX;
 		}
 
-	public static int getTurnCoordsY()
+	public int getCoordsY()
 		{
-			return turnCoordsY;
+			return coordsY;
 		}
 
-	public static void setTurnCoordsY(int turnCoordsY)
+	public void setCoordsY(int turnCoordsY)
 		{
-			Snake.turnCoordsY = turnCoordsY;
+			this.coordsY = turnCoordsY;
 		}
 	
 	}
