@@ -100,7 +100,8 @@ public class Game extends JPanel
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
-		game.greet();	
+		game.greet();
+		int counter=0;
 		while(!pigsFly)
 			{
 			System.out.println("FOOD x "+game.xFoodCoord);
@@ -109,13 +110,15 @@ public class Game extends JPanel
 			System.out.println("y "+game.snake.get(0).getCoordsY());
 			food = game.createFood(food);
 			game.movement();
+			
+			counter = game.checkCannabalism(counter);
 			game.movementBabySnake();
 			food = game.checkForEat(food);
 			game.repaint();
 			
 			try
 				{
-				Thread.sleep(180);
+				Thread.sleep(120);
 				} catch (InterruptedException e)
 				{
 				e.printStackTrace();
@@ -158,25 +161,21 @@ public class Game extends JPanel
 		{
 		if (snake.get(0).getCoordsX()  < 0)
 			{
-			System.out.println("YOU LOSE :^ )");
 			left=false;
 			gameOver();
 			}
-		if (snake.get(0).getCoordsX()  >= 475)
+		else if (snake.get(0).getCoordsX()  >= 475)
 			{
-			System.out.println("YOU LOSE :^ )");
 			right=false;
 			gameOver();
 			}
 		else if (snake.get(0).getCoordsY()  < 0)
 			{
-			System.out.println("YOU LOSE :^ )");	 
 			up=false;
 			gameOver();
 			}
 		else if (snake.get(0).getCoordsY()  >= 450)
 			{
-			System.out.println("YOU LOSE :^ )");	
 			down=false;
 			gameOver();
 			}
@@ -192,11 +191,28 @@ public class Game extends JPanel
 		}
 	public void movementBabySnake()
 		{
-		for(int i=snake.size();i<0;i--)
+			
+		for(int i=snake.size();i>1;i--)
 			{
-			snake.get(i).setCoordsX(snake.get(i-1).getCoordsX());
-			snake.get(i).setCoordsY(snake.get(i-1).getCoordsY());
+			snake.get(i-1).setCoordsX(snake.get(i-2).getCoordsX());
+			snake.get(i-1).setCoordsY(snake.get(i-2).getCoordsY());
 			}
 		}
-
+	public int checkCannabalism(int c)
+		{
+		c++;
+		System.out.println(c);
+		if(c>3)
+			{
+			for(Snake i:snake)
+			{
+			if(snake.get(0).getCoordsX()==i.getCoordsX())
+				{
+				if(snake.get(0).getCoordsY()==i.getCoordsY())
+					gameOver();
+				}
+			}
+		}
+	return c;
 	}
+}
