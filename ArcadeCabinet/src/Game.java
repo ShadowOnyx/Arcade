@@ -39,24 +39,52 @@ public class Game extends JPanel
 					up=false;
 					down=false;
 					left=true;	
+					try
+						{
+							Thread.sleep(10);
+						} catch (InterruptedException e1)
+						{
+							e1.printStackTrace();
+						}
 					}
 				if(KeyEvent.getKeyText(e.getKeyCode()).equals("Right")&&left==false)
 					{
 					up=false;
 					down=false;
-					right=true;	
+					right=true;
+					try
+						{
+							Thread.sleep(10);
+						} catch (InterruptedException e1)
+						{
+							e1.printStackTrace();
+						}
 					}
 				if(KeyEvent.getKeyText(e.getKeyCode()).equals("Up")&&down==false)
 					{
 					up=true;
 					right=false;
-					left=false;	
+					left=false;
+					try
+						{
+							Thread.sleep(10);
+						} catch (InterruptedException e1)
+						{
+							e1.printStackTrace();
+						}
 					}
 				if(KeyEvent.getKeyText(e.getKeyCode()).equals("Down")&&up==false)
 					{
 					right=false;
 					down=true;
-					left=false;	
+					left=false;
+					try
+						{
+							Thread.sleep(10);
+						} catch (InterruptedException e1)
+						{
+							e1.printStackTrace();
+						}
 					}
 				}
 
@@ -90,9 +118,10 @@ public class Game extends JPanel
 		{
 		Game game = new Game();
 		game.snake.add(new Snake(225,200));
-		game.snake.add(new Snake(200,200));
-		game.snake.add(new Snake(175,200));
-		boolean food=false;
+		game.snake.add(new Snake(225,200));
+		xFoodCoord = (int)(Math.random()*19)*25;
+		yFoodCoord = (int)(Math.random()*18)*25;
+		boolean food=true;
 		JFrame frame = new JFrame("FALLOUT 5 PUBLIC ALPHA BUILD -0.01");		
 		frame.add(game);
 		frame.setSize(480,478);
@@ -109,19 +138,20 @@ public class Game extends JPanel
 			System.out.println("x "+game.snake.get(0).getCoordsX());
 			System.out.println("y "+game.snake.get(0).getCoordsY());
 			food = game.createFood(food);
-			game.movement();
-			
-			counter = game.checkCannabalism(counter);
-			game.movementBabySnake();
-			food = game.checkForEat(food);
-			game.repaint();
-			
-			try
+			if(right||up||down||left)
 				{
-				Thread.sleep(120);
-				} catch (InterruptedException e)
-				{
-				e.printStackTrace();
+				game.movement();
+				counter = game.checkCannabalism(counter);
+				game.movementBabySnake();
+				food = game.checkForEat(food);
+				game.repaint();
+				try
+					{
+					Thread.sleep(100);
+					} catch (InterruptedException e)
+					{
+					e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -135,6 +165,14 @@ public class Game extends JPanel
 			yFoodCoord = (int)(Math.random()*18)*25;
 			if(lastCoordX==xFoodCoord&&lastCoordY==yFoodCoord)
 				createFood(food);
+			for(Snake i:snake)
+				{
+				if(i.getCoordsX()==xFoodCoord)
+					{
+					if(i.getCoordsY()==yFoodCoord)
+						createFood(food);
+					}
+				}
 			}
 		return food=true;
 		}
@@ -201,14 +239,13 @@ public class Game extends JPanel
 	public int checkCannabalism(int c)
 		{
 		c++;
-		System.out.println(c);
 		if(c>3)
 			{
-			for(Snake i:snake)
+			for(int i=1;i<snake.size();i++)
 			{
-			if(snake.get(0).getCoordsX()==i.getCoordsX())
+			if(snake.get(0).getCoordsX()==snake.get(i).getCoordsX())
 				{
-				if(snake.get(0).getCoordsY()==i.getCoordsY())
+				if(snake.get(0).getCoordsY()==snake.get(i).getCoordsY())
 					gameOver();
 				}
 			}
