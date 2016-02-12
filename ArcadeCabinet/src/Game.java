@@ -104,9 +104,9 @@ public class Game extends JPanel
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-		g2d.setColor(Color.orange);
+		g2d.setColor(Color.white);
 		g2d.fillOval(xFoodCoord, yFoodCoord, 25, 25);
-		g2d.setColor(Color.black);
+		g2d.setColor(Color.white);
 		for(int i=0;i<snake.size();i++)
 			{
 			
@@ -124,11 +124,13 @@ public class Game extends JPanel
 		boolean food=true;
 		JFrame frame = new JFrame("FALLOUT 5 PUBLIC ALPHA BUILD -0.01");		
 		frame.add(game);
+		frame.getContentPane().setBackground( Color.black );
 		frame.setSize(480,478);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
+	
 		game.greet();
 		int counter=0;
 		while(!pigsFly)
@@ -147,7 +149,7 @@ public class Game extends JPanel
 				game.repaint();
 				try
 					{
-					Thread.sleep(100);
+					Thread.sleep(90);
 					} catch (InterruptedException e)
 					{
 					e.printStackTrace();
