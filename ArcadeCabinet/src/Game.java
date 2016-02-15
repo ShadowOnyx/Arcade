@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Component;
+import java.awt.Container;
 
 @SuppressWarnings("serial")
 public class Game extends JPanel 
@@ -22,6 +23,7 @@ public class Game extends JPanel
 	static boolean pigsFly;
 	static int xFoodCoord;
 	static int yFoodCoord;
+	static int choice;
 	ArrayList <Snake> snake = new ArrayList <Snake>();
 	public Game() 
 		{
@@ -33,7 +35,6 @@ public class Game extends JPanel
 			@Override
 			public void keyPressed(KeyEvent e) 
 				{
-				System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
 				if(KeyEvent.getKeyText(e.getKeyCode()).equals("Left")&&right==false)
 					{
 					up=false;
@@ -41,7 +42,7 @@ public class Game extends JPanel
 					left=true;	
 					try
 						{
-							Thread.sleep(10);
+							Thread.sleep(20);
 						} catch (InterruptedException e1)
 						{
 							e1.printStackTrace();
@@ -54,7 +55,7 @@ public class Game extends JPanel
 					right=true;
 					try
 						{
-							Thread.sleep(10);
+							Thread.sleep(20);
 						} catch (InterruptedException e1)
 						{
 							e1.printStackTrace();
@@ -67,7 +68,7 @@ public class Game extends JPanel
 					left=false;
 					try
 						{
-							Thread.sleep(10);
+							Thread.sleep(20);
 						} catch (InterruptedException e1)
 						{
 							e1.printStackTrace();
@@ -80,12 +81,13 @@ public class Game extends JPanel
 					left=false;
 					try
 						{
-							Thread.sleep(10);
+							Thread.sleep(20);
 						} catch (InterruptedException e1)
 						{
 							e1.printStackTrace();
 						}
 					}
+				
 				}
 
 			@Override
@@ -104,41 +106,51 @@ public class Game extends JPanel
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-		g2d.setColor(Color.black);
+		if(choice==1)
+			g2d.setColor(new Color(168,205,153));
+		else
+			g2d.setColor(Color.BLACK);
+		g2d.fillRect(0, 0, 480, 478);
+		if(choice==1)
+			g2d.setColor(new Color(31,28,35));
+		else
+			g2d.setColor(Color.WHITE);
 		g2d.fillOval(xFoodCoord, yFoodCoord, 25, 25);
-		g2d.setColor(Color.black);
+		
+		
 		for(int i=0;i<snake.size();i++)
 			{
 			
+		
 			g2d.fillRect(snake.get(i).getCoordsX(), snake.get(i).getCoordsY(), 25, 25 );	
 			}
 		}
 	
 	public static void main(String[] args) 
 		{
+		System.out.println("Did you know Eclipse doesn't do anything if you don't print something?");
+		System.out.println("Because I didn't");
 		Game game = new Game();
-		game.snake.add(new Snake(225,200));
-		game.snake.add(new Snake(225,200));
+		game.greet();
 		xFoodCoord = (int)(Math.random()*19)*25;
 		yFoodCoord = (int)(Math.random()*18)*25;
 		boolean food=true;
-		JFrame frame = new JFrame("FALLOUT 5 PUBLIC ALPHA BUILD -0.01");		
-		frame.add(game);
+		JFrame frame = new JFrame("FALLOUT 5 PUBLIC ALPHA BUILD -0.01");
+		Container con = frame.getContentPane();
+		con.setBackground(new Color(168,205,153) );
 		frame.setSize(480,478);
+		frame.add(game);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
-		frame.getContentPane().setBackground(Color.black );
-		game.repaint();
-		game.greet();
+		game.snake.add(new Snake(225,200));
+		game.snake.add(new Snake(225,200));
+		
 		int counter=0;
 		while(!pigsFly)
-			{
-			System.out.println("FOOD x "+game.xFoodCoord);
-			System.out.println("FOOD y "+game.yFoodCoord);
-			System.out.println("x "+game.snake.get(0).getCoordsX());
-			System.out.println("y "+game.snake.get(0).getCoordsY());
+			{		
+			System.out.println();
 			food = game.createFood(food);
 			if(right||up||down||left)
 				{
@@ -149,7 +161,7 @@ public class Game extends JPanel
 				game.repaint();
 				try
 					{
-					Thread.sleep(100);
+					Thread.sleep(95);
 					} catch (InterruptedException e)
 					{
 					e.printStackTrace();
@@ -193,9 +205,15 @@ public class Game extends JPanel
 			}
 		return food;
 		}
-	public void greet()	
+	public int greet() 
 		{
-		JOptionPane.showMessageDialog(this, "Thank you for alpha testing, remember that the contents of this tech demo are not representative of the final product.", "", JOptionPane.YES_NO_OPTION);	
+		 String[] buttons = { "High Contrast", "Classic"};
+
+		    choice = JOptionPane.showOptionDialog(null, "Which theme would you like to play with?", "Theme Choice",
+		    		JOptionPane.WARNING_MESSAGE, 0, null, buttons, buttons[1]);
+		     return choice;
+		      
+		        
 		}
 	public void movement()
 		{
