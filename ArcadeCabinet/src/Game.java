@@ -4,12 +4,12 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.Component;
 
 @SuppressWarnings("serial")
 public class Game extends JPanel 
@@ -104,9 +104,9 @@ public class Game extends JPanel
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-		g2d.setColor(Color.white);
+		g2d.setColor(Color.black);
 		g2d.fillOval(xFoodCoord, yFoodCoord, 25, 25);
-		g2d.setColor(Color.white);
+		g2d.setColor(Color.black);
 		for(int i=0;i<snake.size();i++)
 			{
 			
@@ -124,13 +124,13 @@ public class Game extends JPanel
 		boolean food=true;
 		JFrame frame = new JFrame("FALLOUT 5 PUBLIC ALPHA BUILD -0.01");		
 		frame.add(game);
-		frame.getContentPane().setBackground( Color.black );
 		frame.setSize(480,478);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
-	
+		frame.getContentPane().setBackground(Color.black );
+		game.repaint();
 		game.greet();
 		int counter=0;
 		while(!pigsFly)
@@ -149,7 +149,7 @@ public class Game extends JPanel
 				game.repaint();
 				try
 					{
-					Thread.sleep(90);
+					Thread.sleep(100);
 					} catch (InterruptedException e)
 					{
 					e.printStackTrace();
